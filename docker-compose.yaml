@@ -1,0 +1,42 @@
+services:
+  mariadb:
+    image: linuxserver/mariadb:11.4.2
+    container_name: poet_db
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=changeme
+      - MYSQL_DATABASE=poet
+      - MYSQL_USER=poetuser
+      - MYSQL_PASSWORD=poetpass
+    volumes:
+      - mariadb_/config
+    ports:
+      - "3306:3306"
+
+  crawl4ai:
+    image: unclecode/crawl4ai:latest
+    container_name: poet_crawl4ai
+    ports:
+      - "8860:11235"
+    shm_size: "1g"
+    restart: unless-stopped
+    environment:
+      - TZ=Europe/Berlin
+    volumes:
+      - ./crawl_/data
+
+  collector:
+    build: ./crawler
+    container_name: poet_collector
+    depends_on:
+      - mariadb
+      - crawl4ai
+    restart: unless-stopped
+    environment:
+      - DB_HOST=mariadb
+      - DB_NAME=poet
+      - DB_USER=poetuser
+      - DB_PASS=poetpass
+
+volumes:
+  mariadb_
