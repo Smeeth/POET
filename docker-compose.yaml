@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
   mariadb:
     image: linuxserver/mariadb:11.4.2
