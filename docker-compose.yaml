@@ -25,7 +25,7 @@ services:
     environment:
       - TZ=Europe/Berlin
     volumes:
-      - ./crawl_/data
+      - crawl_/data
 
   collector:
     build: ./crawler
@@ -42,3 +42,4 @@ services:
 
 volumes:
   mariadb_
+  crawl_
