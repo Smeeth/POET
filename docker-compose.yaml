@@ -42,4 +42,6 @@ services:
 
 volumes:
   mariadb_
+    external: true
   crawl_
+    external: true
